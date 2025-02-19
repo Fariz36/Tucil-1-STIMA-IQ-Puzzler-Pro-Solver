@@ -1,2 +1,2 @@
-Nama : Mochammad Fariz Rifqi Rizqulloh
+Nama : Mochammad Fariz Rifqi Rizqulloh //
 NIM : 13523069
