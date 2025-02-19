@@ -245,10 +245,10 @@ public class App {
             }
         }
 
-        //validate total area
-        // if (totalarea != n*m) {
-        //     throw new IllegalArgumentException("Invalid Tetromino : Total area of tetrominos does not match with the given area, " + totalarea + " vs " + n*m);
-        // }
+        validate total area
+        if (totalarea != n*m) {
+            throw new IllegalArgumentException("Invalid Tetromino : Total area of tetrominos does not match with the given area, " + totalarea + " vs " + n*m);
+        }
 
         Block block = new Block(tetrominos, n, m, p);
         block.solve();
