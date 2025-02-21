@@ -107,26 +107,30 @@ public class Block {
           Tetromino tetromino = this.tetrominos[cur_tetromino];
           for (int rot = 0; rot < 4; rot++) {
             for (int flip = 0; flip < 2; flip++) {
-              if (placeTetromino(tetromino, i, j)) {
-                int nexti = i;
-                int nextj = j+1;
-                
-                while (nexti <= this.n) {
-                  while (nextj <= this.m && arr[nexti][nextj] != -1) {
-                    nextj++;
-                  }
-                  if (nextj > this.m) {
-                    nextj = 1;
-                    nexti++;
-                  } 
-                  else {
-                    break;
+              for (int shiftx = -tetromino.n+1; shiftx <= tetromino.m-1 && i+shiftx <= this.n; shiftx++) {
+                for (int shifty = -tetromino.m+1; shifty <= tetromino.n-1 && j+shifty <= this.m; shifty++) {
+                  if (placeTetromino(tetromino, i+shiftx, j+shifty)) {
+                    int nexti = i;
+                    int nextj = j+1;
+                    
+                    while (nexti <= this.n) {
+                      while (nextj <= this.m && arr[nexti][nextj] != -1) {
+                        nextj++;
+                      }
+                      if (nextj > this.m) {
+                        nextj = 1;
+                        nexti++;
+                      } 
+                      else {
+                        break;
+                      }
+                    }
+
+                    findSolution(nexti, nextj, used);
+                    if (this.foundSolution) return;
+                    removeTetromino(tetromino, i+shiftx, j+shifty);
                   }
                 }
-
-                findSolution(nexti, nextj, used);
-                if (this.foundSolution) return;
-                removeTetromino(tetromino, i, j);
               }
               if (flip != 1) tetromino = tetromino.flip();
             }
