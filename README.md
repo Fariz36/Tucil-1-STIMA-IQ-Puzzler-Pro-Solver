@@ -38,25 +38,25 @@ This project is an assignment for the **IF2211 Strategi Algoritma** course. The 
 #### Jar File
 1. Make sure you already have Java, JavaFX, and Gradle installed
 2. Clone the repository
-      ```bash
+      ```sh
    git clone https://github.com/Nayekah/Tucil1_13523090.git
    ```
 3. Open the terminal 
 4. Run this command
    ```
-java --module-path <path to the JavaFX> --add-modules javafx.controls,javafx.fxml -jar app.jar
-```
+   java --module-path <path to the JavaFX> --add-modules javafx.controls,javafx.fxml -jar app.jar
+      ```
 #### Gradle
 1. Make sure you already have Java, JavaFX, and Gradle installed
 2. Clone the repository
-      ```bash
+   ```sh
    git clone https://github.com/Nayekah/Tucil1_13523090.git
    ```
 3. Open the terminal
 4. Run this command
    ```
-./gradlew run  # (Linux/macOS)
-./gradlew.bat run # (Windows)
-```
+      ./gradlew run  # (Linux/macOS)
+      ./gradlew.bat run # (Windows)
+   ```
 
 
