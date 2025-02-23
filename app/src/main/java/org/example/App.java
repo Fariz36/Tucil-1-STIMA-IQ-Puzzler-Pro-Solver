@@ -2,6 +2,8 @@ package org.example;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.*;
+import java.nio.file.*;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,6 +12,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+
+import org.checkerframework.common.returnsreceiver.qual.This;
 
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -40,7 +44,130 @@ public class App extends Application  {
     }
 
     public void loadConfig(String path) {
+        int n = -1, m = -1, p = -1;
+        String S = "";
+        ArrayList<String> UnprocessedTetrominos = new ArrayList<String>();
 
+        boolean first = true;
+        boolean second = true;
+        String filePath = path;
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (first) {
+                    String[] tokens = line.trim().split("\\s+");
+                    
+                    try {
+                        if (tokens.length != 3) {
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Error Dialog");
+                            alert.setHeaderText("Invalid input format : line input 1");
+                            alert.setContentText("Please input the correct format");
+                            alert.showAndWait();
+                            throw new IllegalArgumentException("Invalid input format");
+                        }
+                        n = Integer.parseInt(tokens[0]);
+                        m = Integer.parseInt(tokens[1]);
+                        p = Integer.parseInt(tokens[2]);
+                        first = false;
+                    } catch (NumberFormatException e) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error Dialog");
+                        alert.setHeaderText("Invalid input format : line input 1");
+                        alert.setContentText("Please input the correct format");
+                        alert.showAndWait();
+                        throw new IllegalArgumentException("Invalid input format");
+                    }
+                }
+                else if (second) {
+                    S = line;
+                    if (S.compareTo("DEFAULT") != 0 && S.compareTo("CUSTOM") != 0 && S.compareTo("PYRAMID") != 0) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error Dialog");
+                        alert.setHeaderText("Invalid input format : input line 2");
+                        alert.setContentText("Please input the correct format");
+                        alert.showAndWait();
+                        throw new IllegalArgumentException("Invalid input format");
+                    }
+                    second = false;
+                }
+                else {
+                    UnprocessedTetrominos.add(line);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if  (p > 26) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Invalid input P");
+            alert.setContentText("P must be less than or equal to 26");
+            alert.showAndWait();
+            throw new IllegalArgumentException("Invalid input P : P must be less than or equal to 26");
+        }
+
+        System.out.println("n : " + n);
+        System.out.println("m : " + m);
+        System.out.println("p : " + p);
+        System.out.println("s : " + S);
+        System.out.println("UnprocessedTetrominos : ");
+        for (String tetromino : UnprocessedTetrominos) {
+            System.out.println(tetromino);
+        }
+
+        Tetromino[] localtetrominos = ProcessTetrominos(UnprocessedTetrominos, p);
+        System.out.println("ProcessedTetrominos : ");
+        for (int i = 1; i <= p; i++) {
+            System.out.println("Tetromino " + localtetrominos[i].id + " : ");
+            System.out.println("n : " + localtetrominos[i].n);
+            System.out.println("m : " + localtetrominos[i].m);
+            localtetrominos[i].printTetromino();
+        }
+
+        int max_length = 0;
+        for (int i = 1; i <= p; i++) {
+            max_length = Math.max(max_length, Math.max(localtetrominos[i].n, localtetrominos[i].m));
+        }
+        if (max_length > Math.max(n, m)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Invalid Tetromino");
+            alert.setContentText("Tetromino is too big");
+            alert.showAndWait();
+            throw new IllegalArgumentException("Invalid Tetromino : Tetromino is too big");
+        }
+
+        String configPath = Paths.get("input.txt").toAbsolutePath().toString();
+        System.out.println("configPath : " + configPath);
+        
+        File configFile = new File(configPath);
+        try (FileWriter writer = new FileWriter(configFile)) {
+            writer.write(n + " " + m + " " + p + "\n");
+            writer.write("DEFAULT\n");
+
+            for (int i = 1; i <= p; i++) {
+                for (int j = 1; j <= localtetrominos[i].n; j++) {
+                    for (int k = 1; k <= localtetrominos[i].m; k++) {
+                        if (localtetrominos[i].get(j, k)) {
+                            writer.write((char)('A' + localtetrominos[i].id - 1));
+                        }
+                        else {
+                            writer.write(" ");
+                        }
+                    }
+                    writer.write("\n");
+                }
+            }
+
+            System.out.println("Config saved at: " + configFile.getAbsolutePath());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        startBruteforce();
     }
 
     public void writeConfig() {
@@ -145,8 +272,8 @@ public class App extends Application  {
             VBox NMBox = new VBox(10, n_HBox, m_HBox, saveSize);
             NMBox.setStyle("-fx-padding: 20; -fx-alignment: center; -fy-alignment: center;");
 
-            openTetrominoConfig = new Button("Block " + (id+1));
-            openTetrominoConfig.setOnAction(event -> {
+            this.openTetrominoConfig = new Button("Block " + (id+1));
+            this.openTetrominoConfig.setOnAction(event -> {
                 this.tetrominoGrid = new GridPane();
                 int tetrominoRows = this.n;
                 int tetrominoCols = this.m;
@@ -167,7 +294,7 @@ public class App extends Application  {
                 }
 
                 this.submitTetromino = new Button("Save Tetromino");
-                submitTetromino.setOnAction(submitEvent -> {
+                this.submitTetromino.setOnAction(submitEvent -> {
                     tetrominos.set(id, this.arr);
                     isSaved[id] = true;
                     this.tetrominoStage.close();
@@ -251,6 +378,7 @@ public class App extends Application  {
             }
 
             this.loadConfig(ConfigPath);
+        
         });
 
         Button startButton = new Button("Start Finding Solution!");
@@ -380,6 +508,7 @@ public class App extends Application  {
     }
 
     public static Tetromino processTetromino(List<String> tetromino) {
+        int id = 0;
         int n = tetromino.size();
         int m = 0;
         for (int i = 0; i < n; i++) {
@@ -397,6 +526,7 @@ public class App extends Application  {
                     if (isCapitalLetter(tetromino.get(i).charAt(j))) {
                         rootn = i;
                         rootm = j;
+                        id = tetromino.get(i).charAt(j) - 'A' + 1;
                     }
                     else if (tetromino.get(i).charAt(j) != ' ') {
                         throw new IllegalArgumentException("Invalid Tetromino : Found invalid character");
@@ -445,11 +575,37 @@ public class App extends Application  {
                 q.add(new Pair<Integer, Integer>(x, y+1));
                 visited[x][y+1] = true;
             }
+
+            //check diagonal
+            if (x > 0 && y > 0 && !visited[x-1][y-1] && arr[x-1][y-1]) {
+                q.add(new Pair<Integer, Integer>(x-1, y-1));
+                visited[x-1][y-1] = true;
+            }
+
+            if (x > 0 && y < m-1 && !visited[x-1][y+1] && arr[x-1][y+1]) {
+                q.add(new Pair<Integer, Integer>(x-1, y+1));
+                visited[x-1][y+1] = true;
+            }
+
+            if (x < n-1 && y > 0 && !visited[x+1][y-1] && arr[x+1][y-1]) {
+                q.add(new Pair<Integer, Integer>(x+1, y-1));
+                visited[x+1][y-1] = true;
+            }
+
+            if (x < n-1 && y < m-1 && !visited[x+1][y+1] && arr[x+1][y+1]) {
+                q.add(new Pair<Integer, Integer>(x+1, y+1));
+                visited[x+1][y+1] = true;
+            }
         }
 
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 if (arr[i][j] && !visited[i][j]) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error Dialog");
+                    alert.setHeaderText("Invalid Tetromino");
+                    alert.setContentText("Tetromino is not connected");
+                    alert.showAndWait();
                     throw new IllegalArgumentException("Invalid Tetromino : Tetromino is not connected");
                 }
             }
@@ -466,7 +622,7 @@ public class App extends Application  {
         //     System.out.println();
         // }
 
-        return new Tetromino(n, m, arr);
+        return new Tetromino(n, m, arr, id);
     }
 
     public static Tetromino[] ProcessTetrominos(ArrayList<String> UnprocessedTetrominos, int tetrominoCount) {
@@ -486,14 +642,64 @@ public class App extends Application  {
                 }
             }
             if (isBlank) continue;
-            int j = i;
-            
+            int j = i; 
+
+            int len_max = 0;
             while (isSameTetromino(UnprocessedTetrominos.get(i), UnprocessedTetrominos.get(j))) {
+                len_max = Math.max(len_max, UnprocessedTetrominos.get(j).length());
                 j++;
                 if (j == UnprocessedTetrominos.size()) break;
             }
 
-           // System.out.println(count + " : " + i + " " + j);
+            //delete suffix
+            while (true) { 
+                boolean blank = true;
+                
+                for (int k = i; k < j; k++) {
+                    if (UnprocessedTetrominos.get(k).length() < len_max) continue;
+                    else {
+                        if (UnprocessedTetrominos.get(k).charAt(len_max-1) != ' ') {
+                            blank = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (blank) {
+                    for (int k = i; k < j; k++) {
+                        UnprocessedTetrominos.set(k, UnprocessedTetrominos.get(k).substring(0, len_max-1));
+                    }
+                    len_max--;
+                }
+                else break;
+            }
+            
+            //delete prefix
+            while (true) { 
+                boolean blank = true;
+
+                for (int k = i; k < j; k++) {
+                    if (UnprocessedTetrominos.get(k).length() == 0) continue;
+                    else {
+                        if (UnprocessedTetrominos.get(k).charAt(0) != ' ') {
+                            blank = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (blank) {
+                    for (int k = i; k < j; k++) {
+                        UnprocessedTetrominos.set(k, UnprocessedTetrominos.get(k).substring(1));
+                    }
+                    len_max--;
+                }
+                else break;
+            }
+
+            
+
+            System.out.println(tetrominoCount + " " + count + " : " + i + " " + j);
 
             char tetrominoID = getCharID(UnprocessedTetrominos.get(i));
             if (isUsed[tetrominoID - 'A']) {
@@ -567,6 +773,8 @@ public class App extends Application  {
         System.out.println("ProcessedTetrominos : ");
         for (int i = 1; i <= p; i++) {
             System.out.println("Tetromino " + tetrominos[i].id + " : ");
+            System.out.println("n : " + tetrominos[i].n);
+            System.out.println("m : " + tetrominos[i].m);
             tetrominos[i].printTetromino();
         }
 
@@ -575,6 +783,11 @@ public class App extends Application  {
             max_length = Math.max(max_length, Math.max(tetrominos[i].n, tetrominos[i].m));
         }
         if (max_length > Math.max(n, m)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Invalid Tetromino");
+            alert.setContentText("Tetromino is too big");
+            alert.showAndWait();
             throw new IllegalArgumentException("Invalid Tetromino : Tetromino is too big");
         }
 
@@ -591,6 +804,11 @@ public class App extends Application  {
 
         //validate total area
         if (totalarea != n*m) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Invalid Tetromino");
+            alert.setContentText("Total area of tetrominos does not match with the given area, " + totalarea + " vs " + n*m);
+            alert.showAndWait();
             throw new IllegalArgumentException("Invalid Tetromino : Total area of tetrominos does not match with the given area, " + totalarea + " vs " + n*m);
         }
 
