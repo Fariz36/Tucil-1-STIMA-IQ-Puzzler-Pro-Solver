@@ -64,15 +64,17 @@ This project is an assignment for the **IF2211 Strategi Algoritma** course. The 
 ## 📝 Other
 | No | Points | Yes | No |
 | --- | --- | --- | --- |
-| 1 | The program compiles successfully without errors | ✔️ | |
-| 2 | Program successfully executed | ✔️ | |
-| 3 | The solution provided by the program is correct and complies with the rules of the game | ✔️ | |
-| 4 | The program can read the input .txt file and save the solution in the .txt file | ✔️ | |
-| 5 | The program has a Graphical User Interface (GUI) | ✔️ | |
-| 6 | The program can save the solution as an image file | ✔️ | |
-| 7 | The program can solve the case of custom configuration | | ✔️ |
-| 8 | The program can solve the case of Pyramid configuration (3D) | | ✔️ |
-| 9 | Program created by myself | ✔️ | |
+| 1 | Program berhasil dikompilasi tanpa kesalahan  | ✔️ | |
+| 2 | Program berhasil dijalankan | ✔️ | |
+| 3 | Solusi yang diberikan program benar dan mematuhi aturan
+permainan | ✔️ | |
+| 4 | Program dapat membaca masukan berkas .txt serta
+menyimpan solusi dalam berkas .txt | ✔️ | |
+| 5 | Program memiliki Graphical User Interface (GUI) | ✔️ | |
+| 6 | Program dapat menyimpan solusi dalam bentuk file gambar | ✔️ | |
+| 7 | Program dapat menyelesaikan kasus konfigurasi custom | | ✔️ |
+| 8 | Program dapat menyelesaikan kasus konfigurasi Piramida (3D) | | ✔️ |
+| 9 | Program dibuat oleh saya sendiri | ✔️ | |
 
 
 <br/>
