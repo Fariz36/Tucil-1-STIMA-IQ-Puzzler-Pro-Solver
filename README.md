@@ -39,7 +39,7 @@ This project is an assignment for the **IF2211 Strategi Algoritma** course. The 
 1. Make sure you already have Java, JavaFX, and Gradle installed
 2. Clone the repository
       ```sh
-   git clone https://github.com/Nayekah/Tucil1_13523090.git
+   git clone https://github.com/Fariz36/Tucil-1-STIMA-IQ-Puzzler-Pro-Solver.git
    ```
 3. Open the terminal 
 4. Run this command
@@ -50,7 +50,7 @@ This project is an assignment for the **IF2211 Strategi Algoritma** course. The 
 1. Make sure you already have Java, JavaFX, and Gradle installed
 2. Clone the repository
    ```sh
-   git clone https://github.com/Nayekah/Tucil1_13523090.git
+   git clone https://github.com/Fariz36/Tucil-1-STIMA-IQ-Puzzler-Pro-Solver.git
    ```
 3. Open the terminal
 4. Run this command
