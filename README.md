@@ -43,7 +43,7 @@ This project is an assignment for the **IF2211 Strategi Algoritma** course. The 
    ```
 3. Open the terminal 
 4. Run this command
-```
+   ```
 java --module-path <path to the JavaFX> --add-modules javafx.controls,javafx.fxml -jar app.jar
 ```
 #### Gradle
@@ -54,7 +54,7 @@ java --module-path <path to the JavaFX> --add-modules javafx.controls,javafx.fxm
    ```
 3. Open the terminal
 4. Run this command
-```
+   ```
 ./gradlew run  # (Linux/macOS)
 ./gradlew.bat run # (Windows)
 ```
