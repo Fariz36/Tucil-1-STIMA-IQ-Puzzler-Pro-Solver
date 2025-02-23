@@ -1,0 +1,17 @@
+5 5 7
+DEFAULT
+P
+PP
+Q
+QQ
+R
+RR
+S
+SS
+TT
+TT
+T 
+UU
+UU
+U
+VVV

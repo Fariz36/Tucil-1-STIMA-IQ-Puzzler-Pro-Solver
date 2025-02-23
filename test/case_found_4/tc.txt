@@ -1,0 +1,54 @@
+26 3 26
+DEFAULT
+AA
+A
+BB
+ B
+CC
+C
+DD
+D
+ E
+EE
+F
+FF
+GG
+ G
+H
+HH
+II
+ I
+JJ
+J
+ K
+KK
+LL
+ L
+M
+MM
+NN
+ N
+OO
+ O
+ P
+PP
+ Q
+QQ
+R
+RR
+ S
+SS
+TT
+T
+UU
+ U
+V
+VV
+ W
+WW
+XX
+X
+YY
+ Y
+Z
+ZZ
