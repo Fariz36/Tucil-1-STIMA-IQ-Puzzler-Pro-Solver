@@ -469,7 +469,7 @@ public class App extends Application  {
         // Set up the stage
         Scene scene = new Scene(layout, 800, 800);
         primaryStage.setScene(scene);
-        primaryStage.setTitle("File Upload Example");
+        primaryStage.setTitle("Puzzler Pro Solver");
         primaryStage.show();
     }
 
