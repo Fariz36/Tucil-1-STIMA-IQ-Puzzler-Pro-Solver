@@ -18,7 +18,7 @@ This project is an assignment for the **IF2211 Strategi Algoritma** course. The 
 ---
 
 ## 📖 About
-![puzzle](https://raw.githubusercontent.com/Fariz36/Tucil-1-STIMA-IQ-Puzzler-Pro-Solver/refs/heads/main/assets/puzzle.png)
+![puzzle](https://raw.githubusercontent.com/Fariz36/Tucil-1-STIMA-IQ-Puzzler-Pro-Solver/refs/heads/main/assets/puzzle.jpg)
 **IQ Puzzler Pro** is a board game produced by the company Smart Games. The objective of the game is for players to completely fill the board using the available puzzle pieces (blocks). **IQ Puzzle Solver** is a **Java-based application** designed to solving IQ Puzzler Pro using bruteforce algorithm. This solver allows the user to customize the puzzle components : Board and Pieces. Users can customize size of the puzzle board, and customize the size and shapes of the puzzle pieces.
 
 ### ✨ Features:
@@ -35,10 +35,28 @@ This project is an assignment for the **IF2211 Strategi Algoritma** course. The 
 - Install **Gradle** (or use the Gradle wrapper included in the project).
 - Download **JavaFX SDK** from [GluonHQ](https://gluonhq.com/products/javafx/).
 
-### **2️⃣ Clone the Repository**
-```sh
-git clone https://github.com/your-username/your-repo.git
-cd your-repo
-
+#### Jar File
+1. Make sure you already have Java, JavaFX, and Gradle installed
+2. Clone the repository
+      ```bash
+   git clone https://github.com/Nayekah/Tucil1_13523090.git
+   ```
+3. Open the terminal 
+4. Run this command
+```
+java --module-path <path to the JavaFX> --add-modules javafx.controls,javafx.fxml -jar app.jar
+```
+#### Gradle
+1. Make sure you already have Java, JavaFX, and Gradle installed
+2. Clone the repository
+      ```bash
+   git clone https://github.com/Nayekah/Tucil1_13523090.git
+   ```
+3. Open the terminal
+4. Run this command
+```
+./gradlew run  # (Linux/macOS)
+./gradlew.bat run # (Windows)
+```
 
 
