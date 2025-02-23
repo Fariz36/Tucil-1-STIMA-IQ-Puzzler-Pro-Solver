@@ -66,10 +66,8 @@ This project is an assignment for the **IF2211 Strategi Algoritma** course. The 
 | --- | --- | --- | --- |
 | 1 | Program berhasil dikompilasi tanpa kesalahan  | ✔️ | |
 | 2 | Program berhasil dijalankan | ✔️ | |
-| 3 | Solusi yang diberikan program benar dan mematuhi aturan
-permainan | ✔️ | |
-| 4 | Program dapat membaca masukan berkas .txt serta
-menyimpan solusi dalam berkas .txt | ✔️ | |
+| 3 | Solusi yang diberikan program benar dan mematuhi aturan permainan | ✔️ | |
+| 4 | Program dapat membaca masukan berkas .txt serta menyimpan solusi dalam berkas .txt | ✔️ | |
 | 5 | Program memiliki Graphical User Interface (GUI) | ✔️ | |
 | 6 | Program dapat menyimpan solusi dalam bentuk file gambar | ✔️ | |
 | 7 | Program dapat menyelesaikan kasus konfigurasi custom | | ✔️ |
