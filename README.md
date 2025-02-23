@@ -54,9 +54,33 @@ This project is an assignment for the **IF2211 Strategi Algoritma** course. The 
    ```
 3. Open the terminal
 4. Run this command
-   ```
-      ./gradlew run  # (Linux/macOS)
-      ./gradlew.bat run # (Windows)
+   ```sh
+   ./gradlew run  # (Linux/macOS)
+   ./gradlew.bat run # (Windows)
    ```
 
+## 🎥 Demo
+
+## 📝 Other
+| No | Points | Yes | No |
+| --- | --- | --- | --- |
+| 1 | The program compiles successfully without errors | ✔️ | |
+| 2 | Program successfully executed | ✔️ | |
+| 3 | The solution provided by the program is correct and complies with the rules of the game | ✔️ | |
+| 4 | The program can read the input .txt file and save the solution in the .txt file | ✔️ | |
+| 5 | The program has a Graphical User Interface (GUI) | ✔️ | |
+| 6 | The program can save the solution as an image file | ✔️ | |
+| 7 | The program can solve the case of custom configuration | | ✔️ |
+| 8 | The program can solve the case of Pyramid configuration (3D) | | ✔️ |
+| 9 | Program created by myself | ✔️ | |
+
+
+<br/>
+<br/>
+<br/>
+<br/>
+
+<div align="center">
+Mochammad Fariz Rifqi Rizqulloh • © 2025 • 13523069
+</div>
 
