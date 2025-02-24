@@ -828,6 +828,12 @@ public class App extends Application  {
             }
         }
 
+        if (Board == null) {
+            Board = new boolean[n][m];
+        }
+        if (Board.length != n || Board[0].length != m) {
+            Board = new boolean[n][m];
+        }
         int boardarea = 0;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {

@@ -36,6 +36,7 @@ public class Block {
   int bruteForceCount = 0;
   long startTime;
   long endTime;
+  int apalah = 0;
 
   public Block(Tetromino[] tetrominos, int n, int m, int tetrominoCount, boolean arr[][]) {
     this.n = n;
@@ -225,6 +226,12 @@ public class Block {
   }
 
   public void findSolution(int i, int j, boolean[] used) {
+    int count = 0;
+    for (int x = 1; x <= this.tetrominoCount; x++) {
+      if (!used[x]) {
+        count++;
+      }
+    }
     if (i == n+1) {
       printBlock();
       this.foundSolution = true;
@@ -262,7 +269,7 @@ public class Block {
                   }
                 }
               }
-              if (flip != 1) tetromino = tetromino.flip();
+              tetromino = tetromino.flip();
             }
             if (rot != 3) tetromino = tetromino.rotate();
           }
@@ -278,7 +285,21 @@ public class Block {
     this.bruteForceCount = 0;
     this.startTime = System.currentTimeMillis();
 
-    printBlock();
+    // for (int i = 1; i <= this.tetrominoCount; i++) {
+    //   Tetromino cur = this.tetrominos[i];
+    //   System.err.println("1 : ");
+    //   cur.printTetromino();
+    //   cur = cur.rotate();
+    //   System.err.println("1 : ");
+    //   cur.printTetromino();
+    //   cur = cur.rotate();
+    //   System.err.println("1 : ");
+    //   cur.printTetromino();
+    //   cur = cur.rotate();
+    //   System.err.println("1 : ");
+    //   cur.printTetromino();
+    //   System.err.println("----------------------------------");
+    // }
 
     int posi = 1, posj = 1;
     while (posi <= this.n) {
