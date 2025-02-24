@@ -37,7 +37,7 @@ public class Block {
   long startTime;
   long endTime;
 
-  public Block(Tetromino[] tetrominos, int n, int m, int tetrominoCount) {
+  public Block(Tetromino[] tetrominos, int n, int m, int tetrominoCount, boolean arr[][]) {
     this.n = n;
     this.m = m;
     this.tetrominoCount = tetrominoCount;
@@ -46,7 +46,11 @@ public class Block {
     this.arr = new int[n+2][m+2];
     for (int i = 1; i <= n; i++) {
       for (int j = 1; j <= m; j++) {
-        arr[i][j] = -1;
+        if (!arr[i-1][j-1]) {
+          this.arr[i][j] = -1;
+        } else {
+          this.arr[i][j] = -2;
+        }
       }
     }
 
@@ -124,7 +128,7 @@ public class Block {
   public void printBlock() {
     for (int i = 1; i <= n; i++) {
       for (int j = 1; j <= m; j++) {
-        if (arr[i][j] == -1) {
+        if (arr[i][j] < 0) {
           System.out.print("#");
         } else {
           System.out.print(color[arr[i][j]] + (char)('A' + arr[i][j] - 1) + "\u001B[0m");
@@ -141,9 +145,9 @@ public class Block {
 
     for (int i = 1; i <= n; i++) {
       for (int j = 1; j <= m; j++) {
-        if (arr[i][j] == -1) {
+        if (arr[i][j] < 0) {
           Rectangle rect = new Rectangle(50, 50);
-          rect.setFill(javafx.scene.paint.Color.WHITE);
+          rect.setFill(javafx.scene.paint.Color.BLACK);
           rect.setStroke(javafx.scene.paint.Color.BLACK);
           rect.setStrokeWidth(1.0);
           grid.add(rect, j-1, i-1);
@@ -274,7 +278,23 @@ public class Block {
     this.bruteForceCount = 0;
     this.startTime = System.currentTimeMillis();
 
-    findSolution(1, 1, used);
+    printBlock();
+
+    int posi = 1, posj = 1;
+    while (posi <= this.n) {
+      while (posj <= this.m && arr[posi][posj] != -1) {
+        posj++;
+      }
+      if (posj > this.m) {
+        posj = 1;
+        posi++;
+      } 
+      else {
+        break;
+      }
+    }
+    System.out.println("Starting from " + posi + " " + posj);
+    findSolution(posi, posj, used);
 
     System.out.println("Execution time : " + (this.endTime - this.startTime) + " ms");
     System.out.println("Case searched : " + this.bruteForceCount);

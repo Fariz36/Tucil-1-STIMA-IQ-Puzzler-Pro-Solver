@@ -38,6 +38,7 @@ public class App extends Application  {
     ArrayList<TetrominoPage> tetrominoPages = new ArrayList<TetrominoPage>();
     boolean[] isSaved = new boolean[26];
     String ConfigPath;
+    boolean[][] Board;
 
     public String getGreeting() {
         return "Hello World!";
@@ -365,6 +366,8 @@ public class App extends Application  {
                 fileLabel.setText("No file selected");
             }
         });
+
+        GridPane BoardGridPane = new GridPane();
         
         Button load = new Button("Load Config");
         load.setOnAction(e -> {
@@ -448,6 +451,26 @@ public class App extends Application  {
                         tetrominoPages.remove(now);
                     }
                 }
+
+                if (N >= 0 && M >= 0) {
+                    BoardGridPane.getChildren().clear();
+                    BoardGridPane.setStyle("-fx-padding: 20; -fx-alignment: center;");
+                    Board = new boolean[N][M];
+                    for (int j = 0; j < N; j++) {
+                        for (int k = 0; k < M; k++) {
+                            Button cellButton = new Button();
+                            cellButton.setMinSize(30, 30);
+                            updateCellAppearance(cellButton, Board[j][k]);
+                            int row = j;
+                            int col = k;
+                            cellButton.setOnAction(cellButtonAction -> {
+                                Board[row][col] = !Board[row][col];
+                                updateCellAppearance(cellButton, Board[row][col]);
+                            });
+                            BoardGridPane.add(cellButton, k, j);
+                        }
+                    }
+                }
             } catch (NumberFormatException ex) {
                 System.out.println("Invalid input format");
             }
@@ -457,11 +480,14 @@ public class App extends Application  {
         HBox m_HBox = new HBox(10, mLabel, mField);
         HBox p_HBox = new HBox(10, pLabel, pField);
 
+        Label ConfigureYourPuzzle = new Label("Configure Your Puzzle!");
+        ConfigureYourPuzzle.setStyle("-fx-font-size: 20; -fx-font-weight: bold; -fx-allingment: center;");
+
         VBox NMPField = new VBox(10, n_HBox, m_HBox, p_HBox);
         HBox NPMWrapper = new HBox(40, NMPField, SubmitNMP);
         NPMWrapper.setStyle("-fx-padding: 20; -fx-alignment: center; -fy-alignment: center;");
 
-        VBox layout = new VBox(20, uploadConfig, load, fileLabel, NPMWrapper, TetrominoHBox, startButton);
+        VBox layout = new VBox(20, uploadConfig, load, fileLabel, NPMWrapper, ConfigureYourPuzzle, BoardGridPane, TetrominoHBox, startButton);
         layout.setStyle("-fx-padding: 20; -fx-alignment: center;");
 
         TetrominoHBox.setAlignment(Pos.CENTER);
@@ -722,7 +748,7 @@ public class App extends Application  {
         return tetrominos;
     }
 
-    public static void startBruteforce() {
+    public void startBruteforce() {
         int n = -1, m = -1, p = -1;    
         String s = "";
         ArrayList<String> UnprocessedTetrominos = new ArrayList<String>();
@@ -802,8 +828,17 @@ public class App extends Application  {
             }
         }
 
+        int boardarea = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (!Board[i][j]) {
+                    boardarea++;
+                }
+            }
+        }
+
         //validate total area
-        if (totalarea != n*m) {
+        if (totalarea != boardarea) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error Dialog");
             alert.setHeaderText("Invalid Tetromino");
@@ -812,7 +847,7 @@ public class App extends Application  {
             throw new IllegalArgumentException("Invalid Tetromino : Total area of tetrominos does not match with the given area, " + totalarea + " vs " + n*m);
         }
 
-        Block block = new Block(tetrominos, n, m, p);
+        Block block = new Block(tetrominos, n, m, p, Board);
         block.solve();
     }
 
